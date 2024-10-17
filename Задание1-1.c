@@ -21,8 +21,6 @@ double getB(const double x, const double y);
 * @return - возвращает 0 в случае успешного выполнения программы 
 * @param x - константа x
 * @param y - константа y
-* @GetA - функция расчета числа a
-* @GetB - функция расчета числа b
 */
 int main()
 {
