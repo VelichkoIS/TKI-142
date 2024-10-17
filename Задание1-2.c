@@ -1,33 +1,32 @@
 #include <stdio.h>
 #include <math.h>
 
-double R;
-const double p = 3.14;
-
 /**
 * @brief расчитывает значение обьема шара
 */
-double Volume();
+double Volume(double R, const double p);
 
 /**
 * @brief расчитывает площадь поверхности шара
 */
-double Square();
+double Square(double R, const double p);
 
 /**
 * @brief точка входа функции
 */
 int main() {
-	printf("%s", "Пожалуйста введите радиус шара:");
-	scanf_s("%lf", &R);
-	printf("S:%f\nV:%f", Square(), Volume());
-	return 0;
+    double R;
+    const double p = 3.14;
+    printf("%s", "Пожалуйста введите радиус шара:");
+    scanf_s("%lf", &R);
+    printf("S: %f\nV: %f", Square(R, p), Volume(R, p));
+    return 0;
 }
 
-double Volume() {
-	return 4 / 3 * p * pow(R, 3);
+double Volume(double R, const double p) {
+    return (4.0 / 3.0) * p * pow(R, 3);
 }
 
-double Square() {
-	return 4 * p * pow(R, 2);
+double Square(double R, const double p) {
+    return 4 * p * pow(R, 2);
 }
