@@ -29,55 +29,68 @@ double get_function(const double x);
 void start_finish_check(const double start, const double finish);
 
 /**
- * @brief Проверяет число с плавающей точкой (шаг)
- * на предмет равенства или слишком большой близости к нулю
+ * @brief Проверяет шаг на положительность
+ * @param step Шаг табуляции
  */
 void check_step(double step);
 
 /**
- * @brief Проверяет введённое значение на корректность
- * @details Эта функция не разрешает ввод отрицательных чисел и нуля для шага интервала
+ * @brief Проверяет введённое значение на корректность для шага
+ * @param value Введённое значение
+ * @return Корректное значение шага
  */
 double input_check(double value);
 
 /**
- * @brief Считывает вещественное число
- * @return Вещественное число
+ * @brief Считывает вещественное число от пользователя
+ * @return Введённое вещественное число
  */
 double input(void);
 
 /**
+ * @brief Печатает заголовок таблицы
+ */
+void print_table_header(void);
+
+/**
+ * @brief Печатает строку таблицы с конкретным значением x и соответствующим значением y
+ * @param x Текущее значение x
+ * @param y Значение функции в точке x
+ */
+void print_table_row(const double x, const double y);
+
+/**
+ * @brief Печатает нижнюю часть таблицы
+ */
+void print_table_footer(void);
+
+/**
+ * @brief Табулирует функцию на заданном интервале с заданным шагом
+ * @param start Начало интервала
+ * @param finish Конец интервала
+ * @param step Шаг табуляции
+ */
+void tabulate_function(const double start, const double finish, const double step);
+
+/**
  * @brief Точка входа в программу
- * @return \c 0 в случае выполнения без ошибок 
+ * @return 0 в случае успешного выполнения
  */
 int main(void) {
     setlocale(LC_ALL, "ru_RU.UTF-8");
-    puts("Введите начало интервала:");
+
+    printf("Введите начало интервала: ");
     double start = input();
-    puts("Введите конец интервала: ");
+    printf("Введите конец интервала: ");
     double finish = input();
     start_finish_check(start, finish);
-    puts("Введите шаг табуляции:");
+
+    printf("Введите шаг табуляции: ");
     double step = input_check(input());
     check_step(step);
-    double crntstop = start;
-    puts("----------------------------");
-    printf("Интервал: [%.2lf:%.2lf]\n", start, finish);
-    printf("Шаг: %.2lf\n", step);
-    puts("Ниже построена таблица значений (произведена табуляция):");
-    puts("+==========+==========+");
-    puts("|     x    |     y    |");
-    puts("+==========+==========+");
-    while (crntstop <= finish) {
-        double y = get_function(crntstop);
-        if (isnan(y)) {
-            printf("|%7.2lf   |   Нет решения  |\n", crntstop);
-        } else {
-            printf("|%7.2lf   |%7.2lf   |\n", crntstop, y);
-        }
-        crntstop += step;
-    }
-    puts("+==========+==========+");
+
+    tabulate_function(start, finish, step);
+
     return 0;
 }
 
@@ -86,9 +99,9 @@ bool equality_check(const double num1, const double num2) {
 }
 
 void start_finish_check(const double start, const double finish) {
-    if (start > finish) {
+    if (start >= finish) {
         errno = EPERM;
-        perror("Значение начала интервала больше значения конца интервала");
+        perror("Ошибка: Начало интервала должно быть меньше конца");
         exit(EXIT_FAILURE);
     }
 }
@@ -96,7 +109,7 @@ void start_finish_check(const double start, const double finish) {
 void check_step(double step) {
     if (step <= DBL_EPSILON) {
         errno = EINVAL;
-        perror("Значение шага табуляции слишком мало или равно нулю");
+        perror("Ошибка: Шаг табуляции слишком мал или равен нулю");
         exit(EXIT_FAILURE);
     }
 }
@@ -104,11 +117,11 @@ void check_step(double step) {
 double input_check(double value) {
     if (value < DBL_EPSILON) {
         errno = EINVAL;
-        perror("Шаг не может быть отрицателен");
+        perror("Ошибка: Шаг не может быть отрицательным");
         exit(EXIT_FAILURE);
     } else if (equality_check(0.0, value)) {
         errno = EINVAL;
-        perror("Шаг не может быть равен 0");
+        perror("Ошибка: Шаг не может быть равен нулю");
         exit(EXIT_FAILURE);
     }
     return value;
@@ -116,10 +129,9 @@ double input_check(double value) {
 
 double input(void) {
     double value;
-    int result = scanf("%lf", &value);
-    if (result != 1) {
+    if (scanf("%lf", &value) != 1) {
         errno = EINVAL;
-        perror("Введено не число");
+        perror("Ошибка: Введено нечисловое значение");
         exit(EXIT_FAILURE);
     }
     return value;
@@ -127,7 +139,34 @@ double input(void) {
 
 double get_function(const double x) {
     if (x < 0) {
-        return NAN;  // Возвращаем NaN, если вычисление невозможно
+        return NAN;  // Если вычисление невозможно, возвращаем NaN
     }
     return x + cbrt(x) + (pow(x, 2.5) / 2) - 2.5;
+}
+
+void print_table_header(void) {
+    printf("+==========+==========+\n");
+    printf("|     x    |     y    |\n");
+    printf("+==========+==========+\n");
+}
+
+void print_table_row(const double x, const double y) {
+    if (isnan(y)) {
+        printf("| %8.2lf |   Нет решения   |\n", x);
+    } else {
+        printf("| %8.2lf | %8.2lf |\n", x, y);
+    }
+}
+
+void print_table_footer(void) {
+    printf("+==========+==========+\n");
+}
+
+void tabulate_function(const double start, const double finish, const double step) {
+    print_table_header();
+    for (double x = start; x <= finish; x += step) {
+        double y = get_function(x);
+        print_table_row(x, y);
+    }
+    print_table_footer();
 }
