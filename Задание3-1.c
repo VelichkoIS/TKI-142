@@ -10,14 +10,12 @@
  * @brief Проверяет равенство двух чисел с плавающей точкой с учетом допустимой погрешности
  * @param num1 Первое число для сравнения
  * @param num2 Второе число для сравнения
- * @return Возвращает true, если числа равны в пределах допустимой погрешности; иначе false
  */
 bool equality_check(const double num1, const double num2);
 
 /**
  * @brief Рассчитывает значение функции y(x) в заданной точке x
  * @param x Значение x
- * @return Значение функции y(x) в заданной точке x или NaN, если вычисление невозможно
  */
 double get_function(const double x);
 
@@ -37,13 +35,11 @@ void check_step(double step);
 /**
  * @brief Проверяет введённое значение на корректность для шага
  * @param value Введённое значение
- * @return Корректное значение шага
  */
 double input_check(double value);
 
 /**
  * @brief Считывает вещественное число от пользователя
- * @return Введённое вещественное число
  */
 double input(void);
 
@@ -74,11 +70,8 @@ void tabulate_function(const double start, const double finish, const double ste
 
 /**
  * @brief Точка входа в программу
- * @return 0 в случае успешного выполнения
  */
 int main(void) {
-    setlocale(LC_ALL, "ru_RU.UTF-8");
-
     printf("Введите начало интервала: ");
     double start = input();
     printf("Введите конец интервала: ");
@@ -119,7 +112,8 @@ double input_check(double value) {
         errno = EINVAL;
         perror("Ошибка: Шаг не может быть отрицательным");
         exit(EXIT_FAILURE);
-    } else if (equality_check(0.0, value)) {
+    }
+    else if (equality_check(0.0, value)) {
         errno = EINVAL;
         perror("Ошибка: Шаг не может быть равен нулю");
         exit(EXIT_FAILURE);
@@ -139,21 +133,20 @@ double input(void) {
 
 double get_function(const double x) {
     if (x < 0) {
-        return NAN;  // Если вычисление невозможно, возвращаем NaN
+        return NAN;  
     }
     return x + cbrt(x) + (pow(x, 2.5) / 2) - 2.5;
 }
 
 void print_table_header(void) {
-    printf("+==========+==========+\n");
     printf("|     x    |     y    |\n");
-    printf("+==========+==========+\n");
 }
 
 void print_table_row(const double x, const double y) {
     if (isnan(y)) {
         printf("| %8.2lf |   Нет решения   |\n", x);
-    } else {
+    }
+    else {
         printf("| %8.2lf | %8.2lf |\n", x, y);
     }
 }
