@@ -1,76 +1,85 @@
 #include <stdio.h>
+#include <errno.h>
+#include <stdbool.h>
 #include <math.h>
+#include <float.h>
+#include <stdlib.h>
 
 /**
-* @ breif - принимает значения
-* @ param x - указатель на переменную хранящую введеное число
+* @brief - принимает из stdin, а затем возвращает значение переменной value
+* @var value - переменная для хранения значения того что ввели в stdin
+* @var s - переменная для хранения количества символов введенных в stdin
 */
-int input(double*);
+float input();
+
 
 /**
-* @ breif - вычисляет и проверяет на соответсвие интервалу значение функции
-* @ param x - параметр принимающий значение переменной x введеное число
+* @brief - проверяет что интервал существует
+* @param intervalB - параметр принимающий значение начала интервала
+* @param intervalE - параметр принимающий значение конца интервала
 */
-void check(double);
+int check(const float, const float);
 
 /**
-* @brief - спрашивает нужно ли остановить выполнение программы или запустить цикл вычислений еще раз
+* @brief - проверяет что шаг является положительным числом 
+* @param step - параметр принимающий значение шага
 */
-int cycle();
+float check_step(const float);
 
 /**
-* @brief - проверяет введеное значение на кратность 0.05, то есть шагу табулирования
-* @ param x - параметр принимающий значение переменной x введеное число
+* @brief - табулирует функцию в пределах ОДЗ
+* @param intervalB - параметр принимающий значение начала интервала
+* @param intervalE - параметр принимающий значение конца интервала
+* @param step - параметр принимающий значение шага
+* @var result - переменная для хранения значения функции
 */
-int step(double);
+int calc(float, const float, const float);
 
-/**
-* @ breif - точка входа в функцию
-* @ var x - переменная дублируящая актуальное значение в цикле
-* @ var result - переменная результата одного шага цикла
-*/
-int main(void) {
-	int c = 1, s = 0;
-	double x, result;
-
-	do {
-		input(&x);
-		step(x);
-		check(x);
-		c = cycle();
-	} while (c != 0);
+int main() {
+	puts("Пожалуйста введите значения начала и конца интервала:");
+	const float intervalB = input();
+	const float intervalE = input();
+	check(intervalB, intervalE);
+	puts("Пожалуйста введите значение шага табулирования:");
+	const float step = check_step(input());
+	calc(intervalB, intervalE, step);
 	return 0;
 }
 
-int input(double* x) {
-	printf("Введите число: ");
-	double c = scanf_s("%lf", x);
-	if (c != 1 || (*x) < 0.4 || (*x) > 1) {
-		printf("Введенное значение не соответсвуют указаному в задание интервалу, или не число");
-		exit(1);
+float input() {
+	float value = 0.0;
+	int s = scanf_s("%f", &value);
+	if (s != 1) {
+		errno = EIO;
+		perror("Ошибка, не числовое значение\n");
+		exit(EXIT_FAILURE);
+	}
+	return value;
+}
+
+int check(const float intervalB, const float intervalE) {
+	if (fabs(intervalB - intervalE) < FLT_EPSILON) {
+		errno = EIO;
+		perror("Ошибка, интервал задан одним числом\n");
+		exit(EXIT_FAILURE);
 	}
 }
 
-void check(double x) {
-	double result = x + pow(x, 1.0 / 2) + pow(x, 1.0 / 3) - 2.5;
-	if ((isnan(result) == 1) || (isinf(result) == 1))
-		printf("Для данного значения x = %lf решения не существует:\n", x);
-	else printf("%lf\n", result);
+float check_step(const float step) {
+	if (step < FLT_EPSILON) {
+		errno = EIO;
+		perror("Ошибка, слишком маленький шаг\n");
+		exit(EXIT_FAILURE);
+	}
+	return step;
 }
 
-int cycle() {
-	int dn = 0;
-	printf("Хотите ввести еще одно число (1 - для продолжения ввода)?:");
-	scanf_s("%d", &dn);
-	if (dn == 1)
-		return 0;
-	else
-		exit(0);
-}
-
-int step(double x) {
-	if (fabs(fmod(x, 0.05)) > 1e-9) {
-		printf("Ошибка, не соблюден шаг между значениями в 0.05");
-		exit(1);
+int calc(float intervalB, const float intervalE, const float step) {
+	float result;
+	for (; intervalB <= intervalE + FLT_EPSILON; intervalB += step) {
+		if (intervalB < 0) // ОДЗ
+			puts("Значение не может быть посчитанно");
+		result = intervalB + pow(intervalB, 1.0 / 2.0) + pow(intervalB, 1.0 / 3.0) - 2.5;
+		printf("Для x = %0.2f y = %0.2f\n", intervalB, result);
 	}
 }
