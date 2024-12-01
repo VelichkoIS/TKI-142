@@ -11,7 +11,6 @@
 */
 float input();
 
-
 /**
 * @brief - проверяет что интервал существует
 * @param intervalB - параметр принимающий значение начала интервала
@@ -34,6 +33,12 @@ float check_step(const float);
 */
 int calc(float, const float, const float);
 
+/**
+* @brief - точка входа в программу
+* @var intervalB - переменная принимающая значение начала интервала
+* @var intervalE - переменная принимающая значение конца интервала
+* @var step - переменная принимающая значение шага
+*/
 int main() {
 	puts("Пожалуйста введите значения начала и конца интервала:");
 	const float intervalB = input();
