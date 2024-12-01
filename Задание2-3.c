@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <math.h>
+#include <errno.h>
+#include <stdlib.h>
 
 /**
 * @brief - определяет какое действие произвести
@@ -13,23 +15,36 @@ double calc(double);
 */
 
 /**
-* @brief - запрашивает данные у пользователя и проверяет их на соответсвие числовым типам данных
-* @param - указатель на переменную для вводимого пользователем числа
+* @brief - принимает из stdin, а затем возвращает значение переменной value
+* @var value - переменная для хранения значения того что ввели в stdin
+* @var s - переменная для хранения количества символов введенных в stdin
 */
-double input(double*, double*, double*);
+float input();
 
+/**
+* @brief - точка входа в функцию
+* @var n1 - принимает значение n1 из stdin
+* @var n1 - принимает значение n2 из stdin
+* @var n1 - принимает значение n3 из stdin
+* @return - возвращает значение 0 в результате успешного выполнения программы
+*/
 int main(void) {
-	double n1, n2, n3;
-	input(&n1, &n2, &n3);
+	float n1 = input();
+	float n2 = input();
+	float n3 = input();
 	printf("%.2lf %.2lf %.2lf", calc(n1), calc(n2), calc(n3));
 	return 0;
 }
 
-double input(double* n1, double* n2, double* n3) {
-	if (scanf_s("%lf %lf %lf", n1, n2, n3) != 3) {
-		printf("Ошибка, введен неверный тип данных");
-		exit(1);
+float input() {
+	float value = 0.0;
+	int s = scanf_s("%f", &value);
+	if (s != 1) {
+		errno = EIO;
+		perror("Ошибка, не числовое значение\n");
+		exit(EXIT_FAILURE);
 	}
+	return value;
 }
 
 double calc(double n) {
