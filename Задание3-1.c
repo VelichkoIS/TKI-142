@@ -16,13 +16,13 @@ float input();
 * @param intervalB - параметр принимающий значение начала интервала
 * @param intervalE - параметр принимающий значение конца интервала
 */
-int check(const float, const float);
+int check(const float intervalB, const float intervalE);
 
 /**
-* @brief - проверяет что шаг является положительным числом 
+* @brief - проверяет что шаг является положительным числом
 * @param step - параметр принимающий значение шага
 */
-float check_step(const float);
+float check_step(const float step);
 
 /**
 * @brief - табулирует функцию в пределах ОДЗ
@@ -31,7 +31,7 @@ float check_step(const float);
 * @param step - параметр принимающий значение шага
 * @var result - переменная для хранения значения функции
 */
-int calc(float, const float, const float);
+int calc(float intervalB, const float intervalE, const float step);
 
 /**
 * @brief - точка входа в программу
@@ -83,7 +83,7 @@ int calc(float intervalB, const float intervalE, const float step) {
 	for (; intervalB <= intervalE + FLT_EPSILON; intervalB += step) {
 		if (intervalB < 0) // ОДЗ
 			puts("Значение не может быть посчитанно");
-		result = intervalB + pow(intervalB, 1.0 / 2.0) + pow(intervalB, 1.0 / 3.0) - 2.5;
+		result = intervalB + sqrt(intervalB, 2.0) + cbrt(intervalB, 3.0) - 2.5;
 		printf("Для x = %0.2f y = %0.2f\n", intervalB, result);
 	}
 }
