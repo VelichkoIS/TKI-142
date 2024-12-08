@@ -11,16 +11,40 @@
 */
 int input();
 
-int check(const int);
+/**
+* @brief - проверяет является ли число n роложительным
+* @param n - значение числа членов последовательности сумму которых необходимо найти(n)
+*/
+int check(const int n);
 
-float sum(float, float, const int);
+/**
+* @brief - считает сумму первых n элементов последовательности
+* @param n - значение числа членов последовательности сумму которых необходимо найти(n)
+* @var a - текущий элемент последовательности
+* @var result - текущая сумма членов последовательности
+* @var k - используется для цикла (актуальное порядковое значение элемента последовательности)
+*/
+float sum(const int n);
 
-float_sum_e(const int);
+/**
+* @brief - вычисляет сумму всех членов последовательности, по модулю не меньших заданного числа e
+* @param e - заданное из stdin число
+* @var a - текущий элемент последовательности
+* @var result - текущая сумма членов последовательности
+* @var k - используется для цикла (актуальное порядковое значение элемента последовательности)
+*/
+float sum_e(const int e);
+
+/**
+* @brief - возвращает следующий член последовательности по рекуреннтной формуле
+* @param k - актуальное порядковое значение элемента последовательности 
+*/
+float recurent(const int k);
 
 int main() {
 	puts("Введите чило n:");
 	int n = check(input());
-	printf("Сумма первых %d элементов последовательности: %f\n", n, sum(1.0, 1.0, n));
+	printf("Сумма первых %d элементов последовательности: %f\n", n, sum(n));
 	puts("Введите чило e:");
 	int e = check(input());
 	printf("Сумма всех элементов по модулю больше e: %f", sum_e(e));
@@ -47,29 +71,27 @@ int check(const int n) {
 	return n;
 }
 
-float sum(float a, float result, const int n) {
+float sum(const int n) {
+	float a = 1.0;
+	float result = 1.0;
 	for (int k = 0; k < n; k++) {
-		a *= -1.0 / (k + 1.0);
+		a *= recurent(k);
 		result += a;
 	}
 	return result;
 }
 
-float sum_e(const int n, const int e) {
-	for (int k = 0; k < n; k++) {
-		if (k >= e - FLT_EPSILON) {
-			k -= 1;
-			float a = pow(-1, k) / factorial(k);
-			float result = a;
-			return sum(a, result, n-k);
-		}
+float sum_e(const int e) {
+	float a = 1.0;
+	float result = 1.0;
+	int k = 1;
+	while (fabs(a) >= e +FLT_EPSILON) {
+		result += a;
+		a *= recurent(k);
+		k++;
 	}
 }
 
-int factorial(int k) {
-	int result = 1;
-	for (int i = 1; i < k+1; i++) {
-		result *= i;
-	}
-	return result;
+float recurent(const int k) {
+	return -1.0 / (k + 1.0);
 }
