@@ -190,7 +190,7 @@ int count(const size_t size, int* array) {
 	return c;
 }
 
-void division(const size_t size, int* array, float* array_float) {
+size_t division(const size_t size, int* array, float* array_float) {
 	for (int i = 0; i < size; i++) {
 		if (i % 2 == 0) {
 			array_float[i] = (float)array[i] / (float)array[0];
@@ -217,6 +217,7 @@ int check_mm(const int min, const int max) {
 	if (min > max) {
 		errno = EIO;
 		perror("Не верно указан интервал\n");
-		exit(EXIT_FAILURE);
+		exit(1);
 	}
+	return 0;
 }
