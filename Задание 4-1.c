@@ -104,7 +104,7 @@ int main() {
 		free(array);
 		errno = EIO;
 		perror("Введены неверные значения\n");
-		exit(EXIT_FAILURE);
+		exit(1);
 	}
 	sum(size, array);
 	count(size, array);
@@ -124,7 +124,7 @@ int input() {
 	if (s != 1) {
 		errno = EIO;
 		perror("Ошибка, не числовое значение\n");
-		exit(EXIT_FAILURE);
+		exit(1);
 	}
 	return value;
 }
@@ -135,7 +135,7 @@ size_t input_p() {
 	if (s != 1 || s < 0) {
 		errno = EIO;
 		perror("Ошибка, не числовое значение или число отрицательное\n");
-		exit(EXIT_FAILURE);
+		exit(1);
 	}
 	return value;
 }
@@ -144,7 +144,7 @@ size_t check_size(const size_t size) {
 	if (size > 50) {
 		errno = EIO;
 		perror("Указано слишком большое число элементов массива\n");
-		exit(EXIT_FAILURE);
+		exit(1);
 	}
 	return size;
 }
