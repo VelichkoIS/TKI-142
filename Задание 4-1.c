@@ -114,6 +114,7 @@ int main() {
 	puts("Массив после деления всех элементов с четными номерами на первый элемент: ");
 	print_array_float(array_float, size);
 	free(array_float);
+	return 0;
 }
 
 
