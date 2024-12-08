@@ -1,184 +1,221 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <errno.h>
 
 /**
-* @brief - принимает значение для определения ветки в switch
-* @param value - указатель на переменную значения
+* @brief - принимает из stdin, а затем возвращает значение переменной value
+* @var value - переменная для хранения значения того что ввели в stdin
+* @var s - переменная для хранения количества символов введенных в stdin
 */
-int choice(int*);
-
-/*
-* @brief - выводит каждый элемент массива в целочисленном типе данных
-* @param array - указатель на целочисленный массив
-* @param n - передает количество введеных пользователем чисел
-**/
-void outputI(int*, int);
+int input();
 
 /**
-* @brief - выводит каждый элемент массива в вещественном типе данных
-* @param arrayF - указатель на вещественный массив
-* @param n - передает количество введеных пользователем чисел
+* @brief - принимает из stdin, а затем возвращает значение переменной value, проверяет является ли число положительным
+* @var value - переменная для хранения значения того что ввели в stdin
+* @var s - переменная для хранения количества символов введенных в stdin
 */
-void outputF(float*, int);
+size_t input_p();
 
 /**
-* @brief - Случайно генерирует числа(запрашивает их количество у пользователя) и записывает в целочисленный массив
-* @param array - указатель на целочисленный массив
-* @param n - передает количество введеных пользователем чисел
-* @param min - минимальное значение генерируемых чисел
-* @param max - максимальное значение генерируемых чисел
+* @brief - проверяет размер массива
+* @param size - размер массива
 */
-int case0Input(int*, int**, int, int);
+size_t check_size(const size_t size);
 
 /**
-* @brief - запрашивает числа у пользователя(и их число)
-* @param array - указатель на целочисленный массив
-* @param n - передает количество введеных пользователем чисел
+* @brief - заполняет массив случайно сгенерироваными числами
+* @param array - содержимое массива
+* @param size - размер массива
 */
-int case1Input(int*, int**);
+int r_input(int* array, const size_t size);
 
 /**
-* @brief - расчитывает сумму элементов имеющих нечетные индексы
-* @param array - указатель на целочисленный массив
-* @param n - передает количество введеных пользователем чисел
+* @brief - заполняет массив из стандартного потока ввода
+* @param array - содержимое массива
+* @param size - размер массива
 */
-int sum(int, int*);
+int k_input(int* array, const size_t size);
 
 /**
-* @brief - Подсчитывает количество элементов массива, значения которых больше заданного числа А и кратных 5.
-* @param A - указатель на переменную содержащую число с которым должны сравниваться элементы 
-* @param array - указатель на целочисленный массив
-* @param c - указатель на переменную содержащую значение количества элементов попадающих под свойство
-* @param n - передает количество введеных пользователем чисел
+* @brief - Расчитывает сумму элементов, имеющих нечетные индексы.
+* @param array - содержимое массива
+* @param size - размер массива
 */
-int count(int, int*, int*, int*);
+int sum(const size_t size, int* array);
 
 /**
-* @brief - Делит все элементы массива с четными номерами на первый элемент если первый элемент отличен от 0.
-* @param arrayF - указатель на вещественный массив
-* @param array - указатель на целочисленный массив
-* @param n - передает количество введеных пользователем чисел
+* @brief - Расчитывает количество элементов массива, значения которых больше заданного числа А и кратных 5.
+* @param array - содержимое массива
+* @param size - размер массива
 */
-void division(int, int*, float**);
+int count(const size_t size, int* array);
+
+/**
+* @brief - Делит все элементы массива с четными номерами на первый элемент (первый элемент отличен от 0).
+* @param array - содержимое массива
+* @param size - размер массива
+* @param array_float - содержимое массива чисел с плавающей точкой
+*/
+void division(const size_t size, int* array, float* array_float);
+
+/**
+* @brief - выводит содержимое массива
+* @param array - содержимое массива
+* @param size - размер массива
+*/
+void print_array(int* array, const size_t size);
+
+/**
+* @brief - выводит содержимое массива чисел с плавающей точкой
+* @param array - содержимое массива
+* @param size - размер массива
+*/
+void print_array_float(float* array_float, const size_t size);
+
+/**
+* @brief - проверяет правильность интервала
+* @param min - минимально возможное значение элемента
+* @param max - максимально возможное значение элемента
+*/
+int check_mm(const int min, const int max)
+
+enum method {
+	RANDOM,
+	KEYBOARD
+};
 
 int main() {
-    int A, value, stop = 0, c, n, min = -10, max = 20;
-    int* array = (int*)calloc(1, sizeof(int));
-    float* arrayF = (float*)calloc(1, sizeof(int));
-
-    choice(&value);
-
-    switch (value) {
-    case 0:
-        case0Input(&n, &array, min, max);
-        printf("Ваши числа: ");
-        outputI(array, n);
-        sum(n, array);
-        count(n, &c, &A, array);
-        if (array[0] != 0) {
-            division(n, array, &arrayF);
-            printf("Ваши числа после деления на первый элемент (с плавающей точкой):\n");
-            outputF(arrayF, n);
-        }
-        free(array);
-        free(arrayF);
-        break;
-    case 1:
-        case1Input(&n, &array);
-        printf("Ваши числа: ");
-        outputI(array, n);
-        sum(n, array);
-        count(n, &c, &A, array);
-        if (array[0] != 0) {
-            division(n, array, &arrayF);
-            printf("Ваши числа после деления на первый элемент (с плавающей точкой):\n");
-            outputF(arrayF, n);
-        }
-        free(array);
-        free(arrayF);
-        break;
-    }
-    return 0;
+	puts("Введите размер массива:");
+	size_t size = check_size(input_p());
+	int* array = (int*)malloc(size * sizeof(int));
+	puts("Выберите способ заполнения массива:\n0 - случайными числами\n1 - вручную");
+	enum method choice  = input_p();
+	switch (choice) {
+	case RANDOM:
+		r_input(array, size);
+		puts("Массив: ");
+		print_array(array, size);
+		break;
+	case KEYBOARD:
+		k_input(array, size);
+		break;
+	default:
+		free(array);
+		errno = EIO;
+		perror("Введены неверные значения\n");
+		exit(EXIT_FAILURE);
+	}
+	sum(size, array);
+	count(size, array);
+	float* array_float = (float*)malloc(size * sizeof(float));
+	division(size, array, array_float);
+	free(array);
+	puts("Массив после деления всех элементов с четными номерами на первый элемент: ");
+	print_array_float(array_float, size);
+	free(array_float);
 }
 
-void outputI(int* array, int n) {
-    for (int i = 0; i < n; i++) {
-        printf("%d ", array[i]);
-    }
+
+int input() {
+	int value = 0.0;
+	int s = scanf_s("%d", &value);
+	if (s != 1) {
+		errno = EIO;
+		perror("Ошибка, не числовое значение\n");
+		exit(EXIT_FAILURE);
+	}
+	return value;
 }
 
-void outputF(float* array, int n) {
-    for (int i = 0; i < n; i++) {
-        printf("%.2f ", array[i]);
-    }
+size_t input_p() {
+	int value = 0.0;
+	int s = scanf_s("%d", &value);
+	if (s != 1 || s < 0) {
+		errno = EIO;
+		perror("Ошибка, не числовое значение или число отрицательное\n");
+		exit(EXIT_FAILURE);
+	}
+	return value;
 }
 
-int choice(int* value) {
-    printf("0 - случайная генерация чисел\n1 - ручной ввод\nВаш выбор: ");
-    scanf_s("%d", value);
-    return 0;
+size_t check_size(const size_t size) {
+	if (size > 50) {
+		errno = EIO;
+		perror("Указано слишком большое число элементов массива\n");
+		exit(EXIT_FAILURE);
+	}
+	return size;
 }
 
-int case0Input(int* n, int** array, int min, int max) {
-    srand(time(NULL));
-    printf("Введите число генерируемых чисел (не больше 15): ");
-    scanf_s("%d", n);
-    if ((*n) > 15 || (*n) <= 0) {
-        printf("Ошибка, превышение максимально возможного значения\n");
-        return 1;
-    }
-    *array = (int*)realloc(*array, (*n) * sizeof(int));
-    for (int i = 0; i < *n; i++) {
-        (*array)[i] = rand() % (max - min + 1) + min;
-    }
-    return 0;
+int r_input(int* array, const size_t size) {
+	srand(time(NULL));
+	puts("Введите минимальное значение элемента массива:");
+	int min = input();
+	puts("Введите максимальное значение элемента массива:");
+	int max = input();
+	check_mm;
+	for (int i = 0; i < size; i++) {
+		array[i] = rand() % (max - min + 1) + min;
+	}
+	return 0;
 }
 
-int case1Input(int* n, int** array) {
-    printf("Введите количество чисел которые вы хотите ввести: ");
-    scanf_s("%d", n);
-    if ((*n) > 15 || (*n) <= 0) {
-        printf("Ошибка, превышение максимально возможного значения\n");
-        return 1;
-    }
-    *array = (int*)realloc(*array, (*n) * sizeof(int));
-    for (int i = 0; i < *n; i++) {
-        scanf_s("%d", &((*array)[i]));
-    }
-    return 0;
+int k_input(int* array, const size_t size) {
+	for (int i = 0; i < size; i++) {
+		array[i] = input();
+	}
 }
 
-int sum(int n, int* array) {
-    int temp = 0;
-    for (int i = 1; i < n; i += 2) {
-        temp += array[i];
-    }
-    printf("Сумма всех элементов с нечетными индексами: %d\n", temp);
-    return temp;
+int sum(const size_t size, int* array) {
+	int temp = 0;
+	for (int i = 1; i < size; i += 2) {
+		temp += array[i];
+	}
+	printf("Сумма всех элементов с нечетными индексами: %d\n", temp);
+	return temp;
 }
 
-int count(int n, int* c, int* A, int* array) {
-    printf("Введите число (с которым будут сравниваться элементы массива): ");
-    scanf_s("%d", A);
-    *c = 0;
-    for (int i = 0; i < n; i++) {
-        if ((array[i] > *A) && (array[i] % 5 == 0)) {
-            (*c)++;
-        }
-    }
-    printf("Количество элементов массива значения которых больше %d и кратны 5: %d\n", *A, *c);
-    return *c;
+int count(const size_t size, int* array) {
+	printf("Введите число A (с которым будут сравниваться элементы массива): ");
+	int A = input();
+	int c = 0;
+	for (int i = 0; i < size; i++) {
+		if ((array[i] > A) && (array[i] % 5 == 0)) {
+			c++;
+		}
+	}
+	printf("Количество элементов массива значения которых больше %d и кратны 5: %d\n", A, c);
+	return c;
 }
 
-void division(int n, int* array, float** arrayF) {
-    *arrayF = (float*)calloc(n, sizeof(float));
-    for (int i = 0; i < n; i++) {
-        if (i % 2 == 0) {
-            (*arrayF)[i] = (float)array[i] / (float)array[0];
-        }
-        else {
-            (*arrayF)[i] = (float)array[i];
-        }
-    }
+void division(const size_t size, int* array, float* array_float) {
+	for (int i = 0; i < size; i++) {
+		if (i % 2 == 0) {
+			array_float[i] = (float)array[i] / (float)array[0];
+		}
+		else
+			array_float[i] = array[i];
+	}
+	return array_float;
+}
+
+void print_array(int* array, const size_t size) {
+	for (int i = 0; i < size; i++) {
+		printf("%d ", array[i]);
+	}
+}
+
+void print_array_float(float* array_float, const size_t size) {
+	for (int i = 0; i < size; i++) {
+		printf("%0.2f ", array_float[i]);
+	}
+}
+
+int check_mm(const int min, const int max) {
+	if (min > max) {
+		errno = EIO;
+		perror("Не верно указан интервал\n");
+		exit(EXIT_FAILURE);
+	}
 }
