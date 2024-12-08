@@ -1,84 +1,78 @@
 #define _USE_MATH_DEFINES
 #include <stdio.h>
 #include <math.h>
+#include <errno.h>
 
-typedef enum {
-    TRAPEZOID = 1,
-    CIRCLE
-} ShapeType;
+/**
+* @brief - принимает из stdin, а затем возвращает значение переменной value
+* @var value - переменная для хранения значения того что ввели в stdin
+* @var s - переменная для хранения количества символов введенных в stdin
+*/
+float input();
 
 /**
  * @brief - вычисляет площадь трапеции
- * @param a - длина первого основания
- * @param b - длина второго основания
- * @param h - высота трапеции
+ * @var a - длина первого основания
+ * @var b - длина второго основания
+ * @var h - высота трапеции
  */
-double trapezoidcalculation(double a, double b, double h);
+double trapezoidcalculation();
 
 /**
  * @brief - вычисляет площадь круга
- * @param r - радиус круга
+ * @var r - радиус круга
  */
-double circlecalculation(double r);
+double circlecalculation();
 
-/**
- * @brief - получает ввод для выбранной фигуры
- * @param shape - тип фигуры
- */
-double input(ShapeType shape);
+enum ShapeType {
+    TRAPEZOID,
+    CIRCLE
+};
 
 /**
 * @brief - точка входа в функцию
 * @var choice - целочисленная переменная для получения данных о выборе фигуры от пользователя
-* @var shape - перечисляемая переменная принимает значение приведенной к перечисляемому типу переменной choice
-* @var area - переменная принимает значение результат выполнения фкнкции input
 */
 int main() {
-    int choice;
-    printf("Выберите фигуру для расчета площади:\n1 - Трапеция\n2 - Круг\nВаш выбор: ");
-    if (scanf_s("%d", &choice) != 1) {
-        printf("Ошибка ввода! Пожалуйста, введите числовое значение.\n");
-        return 1;
+    puts("Выберите фигуру для расчета площади:\n0 - Трапеция\n1 - Круг\n");
+    const int choice = input();
+    switch (choice) {
+    case TRAPEZOID: {
+        printf("Площадь трапеции: %0.2lf", trapezoidcalculation());
+        break;
     }
-    ShapeType shape = (ShapeType)choice;
-    double area = input(shape);
-
-    if (area != 1) {
-        printf("Площадь выбранной фигуры: %lf\n", area);
+    case CIRCLE: {
+        printf("Площадь круга: %0.2lf", circlecalculation());
+        break;
+    }
+    default:
+        puts("Неверный выбор! Пожалуйста, выберите 0 или 1.\n");
+        return 1;
     }
     return 0;
 }
 
-double trapezoidcalculation(double a, double b, double h) {
+double trapezoidcalculation() {
+    puts("Введите длины оснований a,b и высоту h через пробел: ");
+    const double a = input();
+    const double b = input();
+    const double h = input();
     return 0.5 * (a + b) * h;
 }
 
-double circlecalculation(double r) {
+double circlecalculation() {
+    puts("Введите радиус круга (r): ");
+    const double r = input();
     return M_PI * r * r;
 }
 
-double input(ShapeType shape) {
-    switch (shape) {
-    case TRAPEZOID: {
-        double a, b, h;
-        printf("Введите длины оснований a,b и высоту h через пробел: ");
-        if (scanf_s("%lf %lf %lf", &a, &b, &h) != 3) {
-            printf("Ошибка ввода! Пожалуйста, введите три числовых значения.\n");
-            return 1;
-        }
-        return trapezoidcalculation(a, b, h);
+float input() {
+    float value = 0.0;
+    int s = scanf_s("%f", &value);
+    if (s != 1) {
+        errno = EIO;
+        perror("Ошибка, не числовое значение\n");
+        exit(1);
     }
-    case CIRCLE: {
-        double r;
-        printf("Введите радиус круга (r): ");
-        if (scanf_s("%lf", &r) != 1) {
-            printf("Ошибка ввода! Пожалуйста, введите числовое значение.\n");
-            return 1;
-        }
-        return circlecalculation(r);
-    }
-    default:
-        printf("Неверный выбор! Пожалуйста, выберите 1 или 2.\n");
-        return 1;
-    }
+    return value;
 }
