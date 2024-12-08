@@ -6,33 +6,33 @@
  * @param x - значение параметра x
  * @param a - константа
  */
-double calculateY(double x, double a);
+double calculateY(const double x, const double a);
 
 /**
- * @brief - получает ввод от пользователя и проверяет тип вводимых данных
- */
+* @brief - принимает из stdin, а затем возвращает значение переменной value
+* @var value - переменная для хранения значения того что ввели в stdin
+* @var s - переменная для хранения количества символов введенных в stdin
+*/
 double input();
 
 int main() {
     const double a = 2.8;
-    double x = input();
-    if (x != 1) { 
+    const double x = input();
         printf("y: %lf\n", calculateY(x, a));
-    }
     return 0;
 }
 
 double input() {
-    double x;
+    const double x = 0;
     printf("Введите значение x: ");
     if (scanf_s("%lf", &x) != 1) {
         printf("Ошибка ввода! Пожалуйста, введите числовое значение.\n");
-        return 1; 
+        return 1;
     }
     return x;
 }
 
-double calculateY(double x, double a) {
+double calculateY(const double x, const double a) {
     if (x < 1.2) {
         return a * x * x + 4;
     }
