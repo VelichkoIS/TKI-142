@@ -55,11 +55,11 @@ float recurent(const float x, const float k);
 
 int main() {
 	const float epsilon = pow(15, -4);
-	puts("Пожалуйста введите значения начала и конца интервала:");
+	puts("Пожалуйста введите значения начала и конца интервала:\n");
 	const float intervalB = input();
 	const float intervalE = input();
 	check(intervalB, intervalE);
-	puts("Пожалуйста введите значение шага табулирования:");
+	puts("Пожалуйста введите значение шага табулирования:\n");
 	const float step = check_step(input());
 	calc(intervalB, intervalE, step, epsilon);
 
@@ -97,7 +97,7 @@ float check_step(const float step) {
 // область определения от -бесконенчости до бесконенчости
 void calc(const float intervalB, const float intervalE, const float step, const float epsilon) {
 	for (float x = intervalB; x <= intervalE + FLT_EPSILON; x += step) {
-		printf("\nx = %.2f\t\tf(x) = %.6f\t\tS(x) = %.6f\n", x, calc_y(x), sum(x, epsilon));
+		printf("x = %.2f     f(x) = %.6f      S(x) = %.6f\n", x, calc_y(x), sum(x, epsilon));
 	}
 }
 
