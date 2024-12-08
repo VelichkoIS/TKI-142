@@ -78,7 +78,7 @@ void print_array_float(float* array_float, const size_t size);
 * @param min - минимально возможное значение элемента
 * @param max - максимально возможное значение элемента
 */
-int check_mm(const int min, const int max)
+int check_mm(const int min, const int max);
 
 enum method {
 	RANDOM,
@@ -155,7 +155,7 @@ int r_input(int* array, const size_t size) {
 	int min = input();
 	puts("Введите максимальное значение элемента массива:");
 	int max = input();
-	check_mm;
+	check_mm(min, max);
 	for (int i = 0; i < size; i++) {
 		array[i] = rand() % (max - min + 1) + min;
 	}
