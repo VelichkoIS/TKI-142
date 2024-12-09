@@ -68,7 +68,7 @@ int main() {
 
 float input() {
 	float value = 0;
-	const int s = scanf_s("%f", &value);
+	int s = scanf_s("%f", &value);
 	if (s != 1) {
 		errno = EIO;
 		perror("Ошибка, не числовое значение\n");
