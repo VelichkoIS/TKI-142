@@ -63,7 +63,7 @@ int main() {
 	size_t size = check_size(input_p());
 	int* array = (int*)malloc(size * sizeof(int));
 	puts("Выберите способ заполнения массива:\n0 - случайными числами\n1 - вручную");
-	enum method choice  = input_p();
+	enum method choice = input_p();
 	switch (choice) {
 	case RANDOM:
 		r_input(array, size);
@@ -169,26 +169,44 @@ int get_first_digit(int number) {
 	return number;
 }
 
-int replace(const size_t size, int* array, int* new_array, int count) {
-	for (int i = 0; i < size; i++) {
-		if (get_first_digit(array[i]) % 2 == 0) {
-			new_array[count] = array[i];
-			count++;
-	}
-}
 
-int new_size(const size_t size, int* array) {
-	int count = 0;
-	for (int i = 0; i < size; i++) {
-		if (get_first_digit(array[i]) % 2 == 0) {
-			array[i] = 0;
-			count++;
+
+/// <summary>
+/// delete() ? 
+///  1. почитать кол-во нечетных  podschet
+///  2. создать массив    
+///  3. занести элементы    replace
+/// </summary>
+
+	int replace(const size_t size, int* array, int* new_array, int count) {
+		for (int i = 0; i < size; i++) {
+			if (get_first_digit(array[i]) % 2 == 0) {
+				new_array[count] = array[i];
+				count++;
+			}
 		}
+		return new_array;
 	}
-	return count;
-}
 
-if (new_count() > 0)
-int* new_array = (int*)malloc(new_size(size, array) * sizeof(int));
-else
-puts("В массиве нету чисел первая цифра которых четная");
+	int podschet(const size_t size, int* array) {
+		int count = 0;
+		for (int i = 0; i < size; i++) {
+			if (get_first_digit(array[i]) % 2 == 0) {
+				array[i] = 0;
+				count++;
+			}
+		}
+		return count;
+	}
+
+	if (new_count() > 0)
+		int* new_array = (int*)malloc(new_size(size, array) * sizeof(int));
+	else
+		puts("В массиве нету чисел первая цифра которых четная");
+
+
+	int delete(const size_t size, int* array, int* new_array) {
+		int count = 0;
+		podschet(size, array);
+		replace(size, array, new_array, count);
+	}
