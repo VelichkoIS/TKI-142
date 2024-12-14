@@ -11,7 +11,7 @@ double input(void);
 
 /**
 * @brief точка входа в функцию
-* @return значение 0 при успешном выполнении программы
+* @return 0 при успешном выполнении программы
 */
 int main(void) {
 	double R = input();
