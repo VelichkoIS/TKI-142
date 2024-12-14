@@ -1,28 +1,24 @@
-#define _USE_MATH_DEFINES
 #include <stdio.h>
 #include <math.h>
 #include <errno.h>
 
 /**
-* @brief - принимает из stdin, а затем возвращает значение переменной value
-* @var value - переменная для хранения значения того что ввели в stdin
-* @var s - переменная для хранения количества символов введенных в stdin
+* @brief принимает числовое значение из stdin
+* @return числовое значение полученное из stdin
 */
-float input();
+float input(void);
 
 /**
- * @brief - вычисляет площадь трапеции
- * @var a - длина первого основания
- * @var b - длина второго основания
- * @var h - высота трапеции
+ * @brief вычисляет площадь трапеции
+ * @return площадь трапеции
  */
-double trapezoidcalculation();
+double trapezoid_calc(void);
 
 /**
- * @brief - вычисляет площадь круга
- * @var r - радиус круга
+ * @brief вычисляет площадь круга
+ * @return площадь круга
  */
-double circlecalculation();
+double circle_calc(void);
 
 enum ShapeType {
     TRAPEZOID,
@@ -30,10 +26,10 @@ enum ShapeType {
 };
 
 /**
-* @brief - точка входа в функцию
-* @var choice - целочисленная переменная для получения данных о выборе фигуры от пользователя
+* @brief точка входа в функцию
+* @return 0 при успешном выполнении программы 
 */
-int main() {
+int main(void) {
     puts("Выберите фигуру для расчета площади:\n0 - Трапеция\n1 - Круг\n");
     const int choice = input();
     switch (choice) {
@@ -52,21 +48,21 @@ int main() {
     return 0;
 }
 
-double trapezoidcalculation() {
+double trapezoid_calc(void) {
     puts("Введите длины оснований a,b и высоту h через пробел: ");
-    const double a = input();
-    const double b = input();
-    const double h = input();
+    double a = input();
+    double b = input();
+    double h = input();
     return 0.5 * (a + b) * h;
 }
 
-double circlecalculation() {
+double circle_calc(void) {
     puts("Введите радиус круга (r): ");
-    const double r = input();
+    double r = input();
     return M_PI * r * r;
 }
 
-float input() {
+float input(void) {
     float value = 0.0;
     int s = scanf_s("%f", &value);
     if (s != 1) {
