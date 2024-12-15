@@ -5,56 +5,46 @@
 #include <stdlib.h>
 
 /**
-* @brief - принимает из stdin, а затем возвращает значение переменной value
-* @var value - переменная для хранения значения того что ввели в stdin
-* @var s - переменная для хранения количества символов введенных в stdin
+* @brief принимает и проверяет числовое значение из stdin
+* @return числовое значение полученное из stdin
 */
-int input();
+int get_positive();
 
 /**
-* @brief - проверяет является ли число n роложительным
-* @param n - значение числа членов последовательности сумму которых необходимо найти(n)
+* @brief считает сумму первых n элементов последовательности
+* @param n значение числа членов последовательности сумму которых необходимо найти(n)
+* @return сумму первых n элементов последовательности
 */
-int check(const int n);
-
-/**
-* @brief - считает сумму первых n элементов последовательности
-* @param n - значение числа членов последовательности сумму которых необходимо найти(n)
-* @var a - текущий элемент последовательности
-* @var result - текущая сумма членов последовательности
-* @var k - используется для цикла (актуальное порядковое значение элемента последовательности)
-*/
-float sum(const int n);
+double sum(const int n);
 
 /**
 * @brief - вычисляет сумму всех членов последовательности, по модулю не меньших заданного числа e
 * @param e - заданное из stdin число
-* @var a - текущий элемент последовательности
-* @var result - текущая сумма членов последовательности
-* @var k - используется для цикла (актуальное порядковое значение элемента последовательности)
+* @return сумму всех членов последовательности, по модулю не меньших заданного числа e
 */
-float sum_e(const int e);
+double sum_e(const int e);
 
 /**
-* @brief - возвращает следующий член последовательности по рекуреннтной формуле
-* @param k - актуальное порядковое значение элемента последовательности 
+* @brief возвращает следующий член последовательности по рекуреннтной формуле
+* @param k актуальное порядковое значение элемента последовательности 
+* @return следующий член последовательности по рекуреннтной формуле
 */
-float recurent(const int k);
+double recurent(const int k);
 
 int main() {
 	puts("Введите чило n:");
-	int n = check(input());
+	int n = get_positive();
 	printf("Сумма первых %d элементов последовательности: %f\n", n, sum(n));
 	puts("Введите чило e:");
-	int e = check(input());
-	printf("Сумма всех элементов по модулю больше e: %f", sum_e(e));
+	int e = get_positive();
+	printf("Сумма всех элементов по модулю больше e: %lf", sum_e(e));
 	return 0;
 }
 
-int input() {
+int get_positive() {
 	int value = 0;
 	const int s = scanf_s("%d", &value);
-	if (s != 1) {
+	if (s != 1 || value <= 0) {
 		errno = EIO;
 		perror("Ошибка, не числовое значение\n");
 		exit(EXIT_FAILURE);
@@ -62,18 +52,9 @@ int input() {
 	return value;
 }
 
-int check(const int n) {
-	if (n <= 0) {
-		errno = EIO;
-		perror("Ошибка, не положительное значение n\n");
-		exit(EXIT_FAILURE);
-	}
-	return n;
-}
-
-float sum(const int n) {
-	float a = 1.0;
-	float result = 1.0;
+double sum(const int n) {
+	double a = 1.0;
+	double result = 1.0;
 	for (int k = 0; k < n; k++) {
 		a *= recurent(k);
 		result += a;
@@ -81,17 +62,18 @@ float sum(const int n) {
 	return result;
 }
 
-float sum_e(const int e) {
-	float a = 1.0;
-	float result = 1.0;
+double sum_e(const int e) {
+	double a = 1.0;
+	double result = 1.0;
 	int k = 1;
 	while (fabs(a) >= e +FLT_EPSILON) {
 		result += a;
 		a *= recurent(k);
 		k++;
 	}
+	return result;
 }
 
-float recurent(const int k) {
+double recurent(const int k) {
 	return -1.0 / (k + 1.0);
 }
