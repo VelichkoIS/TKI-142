@@ -8,7 +8,7 @@
 * @brief принимает и проверяет числовое значение из stdin
 * @return числовое значение полученное из stdin
 */
-int get_positive();
+int get_positive(void);
 
 /**
 * @brief считает сумму первых n элементов последовательности
@@ -31,7 +31,7 @@ double sum_e(const int e);
 */
 double recurent(const int k);
 
-int main() {
+int main(void) {
 	puts("Введите чило n:");
 	int n = get_positive();
 	printf("Сумма первых %d элементов последовательности: %f\n", n, sum(n));
@@ -41,7 +41,7 @@ int main() {
 	return 0;
 }
 
-int get_positive() {
+int get_positive(void) {
 	int value = 0;
 	const int s = scanf_s("%d", &value);
 	if (s != 1 || value <= 0) {
