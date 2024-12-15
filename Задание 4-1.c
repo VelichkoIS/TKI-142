@@ -231,7 +231,7 @@ void check_array(int* const array) {
 
 void comparison(char* temp, enum method* choice, int* array) {
 	if (strcmp(temp, "random") == 0) {
-		*choice = random;  // Изменение по указателю
+		*choice = random; 
 	}
 	else if (strcmp(temp, "keyboard") == 0) {
 		*choice = keyboard;
