@@ -2,32 +2,36 @@
 #include <math.h>
 
 /**
- * @brief - вычисляет значение функции y
- * @param x - значение параметра x
- * @param a - константа
+ * @brief вычисляет значение функции y
+ * @param x значение параметра x
+ * @param a константа
+ * @return значение функции (y)
  */
 double calculateY(const double x, const double a);
 
 /**
-* @brief - принимает из stdin, а затем возвращает значение переменной value
-* @var value - переменная для хранения значения того что ввели в stdin
-* @var s - переменная для хранения количества символов введенных в stdin
+* @brief принимает числовое значение из stdin
+* @return числовое значение полученное из stdin
 */
-double input();
+double input(void);
 
-int main() {
+/**
+* @brief точка входа в функцию
+* @return 0 при успешном выполнении программы
+*/
+int main(void) {
     const double a = 2.8;
     const double x = input();
         printf("y: %lf\n", calculateY(x, a));
     return 0;
 }
 
-double input() {
+double input(void) {
     const double x = 0;
     printf("Введите значение x: ");
     if (scanf_s("%lf", &x) != 1) {
         printf("Ошибка ввода! Пожалуйста, введите числовое значение.\n");
-        return 1;
+        abort(1);
     }
     return x;
 }
