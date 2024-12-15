@@ -5,10 +5,16 @@
 #include <stdlib.h>
 
 /**
-* @brief - принимает из stdin, а затем возвращает значение переменной value
+* @brief принимает числовое значение из stdin 
 * @return числовое значение полученное из stdin
 */
 double input(void);
+
+/**
+* @brief принимает положительное числовое значение из stdin
+* @return положительное числовое значение полученное из stdin
+*/
+double get_step(void);
 
 /**
 * @brief табулирует функцию в пределах ОДЗ, а так же расчитывает сумму ряда
@@ -51,7 +57,6 @@ int main(void) {
 	puts("Пожалуйста введите значения начала и конца интервала:\n");
 	double intervalB = input();
 	double intervalE = input();
-	check(intervalB, intervalE);
 	puts("Пожалуйста введите значение шага табулирования:\n");
 	double step = get_step();
 	calc(intervalB, intervalE, step, epsilon);
@@ -70,7 +75,7 @@ double input(void) {
 	return value;
 }
 
-double get_step() {
+double get_step(void) {
 	double value = 0;
 	int s = scanf_s("%lf", &value);
 	if (s != 1 || value < DBL_EPSILON) {
@@ -93,13 +98,13 @@ double calc_y(const double x) {
 }
 
 double sum(const double x, const double epsilon) {
-	double current = recurent(x, 0);
+	double current = reccurent(x, 0);
 	double result = 0.0;
 	int k = 1;
 
 	while (fabs(current) >= epsilon - DBL_EPSILON) {
 		result += current;
-		current *= recurent(x, k);
+		current *= reccurent(x, k);
 		k++;
 	}
 
