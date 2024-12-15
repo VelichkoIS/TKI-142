@@ -1,3 +1,4 @@
+#define _USE_MATH_DEFINES
 #include <stdio.h>
 #include <math.h>
 #include <errno.h>
@@ -6,7 +7,7 @@
 * @brief принимает числовое значение из stdin
 * @return числовое значение полученное из stdin
 */
-float input(void);
+double input(void);
 
 /**
  * @brief вычисляет площадь трапеции
@@ -27,18 +28,18 @@ enum ShapeType {
 
 /**
 * @brief точка входа в функцию
-* @return 0 при успешном выполнении программы 
+* @return 0 при успешном выполнении программы
 */
 int main(void) {
     puts("Выберите фигуру для расчета площади:\n0 - Трапеция\n1 - Круг\n");
-    const int choice = input();
+    int choice = input();
     switch (choice) {
     case TRAPEZOID: {
-        printf("Площадь трапеции: %0.2lf", trapezoidcalculation());
+        printf("Площадь трапеции: %0.2lf", trapezoid_calc());
         break;
     }
     case CIRCLE: {
-        printf("Площадь круга: %0.2lf", circlecalculation());
+        printf("Площадь круга: %0.2lf", circle_calc());
         break;
     }
     default:
@@ -62,9 +63,9 @@ double circle_calc(void) {
     return M_PI * r * r;
 }
 
-float input(void) {
-    float value = 0.0;
-    int s = scanf_s("%f", &value);
+double input(void) {
+    double value = 0.0;
+    int s = scanf_s("%lf", &value);
     if (s != 1) {
         errno = EIO;
         perror("Ошибка, не числовое значение\n");
