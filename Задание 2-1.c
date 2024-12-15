@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <errno.h>
+#include <stdlib.h>
 
 /**
 * @brief принимает числовое значение из stdin
@@ -21,9 +22,16 @@ double trapezoid_calc(void);
  */
 double circle_calc(void);
 
+/**
+* @brief заносит в переменную choice введеные в stdin символьные значения, если они соответсвуют значениям enum
+* @param temp указатель на знаковый массив
+* @param choice указатель на переменную choice
+*/
+void comparison(char* temp, enum method* choice);
+
 enum ShapeType {
-    TRAPEZOID,
-    CIRCLE
+    trapezoid,
+    circle
 };
 
 /**
@@ -31,14 +39,17 @@ enum ShapeType {
 * @return 0 при успешном выполнении программы
 */
 int main(void) {
-    puts("Выберите фигуру для расчета площади:\n0 - Трапеция\n1 - Круг\n");
-    int choice = input();
+    puts("trapezoid/circle");
+    char temp[10];
+    scanf_s("%9s", temp, (unsigned)_countof(temp));
+    enum ShapeType choice = 2;
+    comparison(temp, &choice);
     switch (choice) {
-    case TRAPEZOID: {
+    case trapezoid: {
         printf("Площадь трапеции: %0.2lf", trapezoid_calc());
         break;
     }
-    case CIRCLE: {
+    case circle: {
         printf("Площадь круга: %0.2lf", circle_calc());
         break;
     }
@@ -72,4 +83,18 @@ double input(void) {
         exit(1);
     }
     return value;
+}
+
+void comparison(char* temp, enum method* choice) {
+    if (strcmp(temp, "trapezoid") == 0) {
+        *choice = trapezoid;
+    }
+    else if (strcmp(temp, "circle") == 0) {
+        *choice = circle;
+    }
+    else {
+        errno = EIO;
+        perror("Введены неверные значения\n");
+        exit(EXIT_FAILURE);
+    }
 }
