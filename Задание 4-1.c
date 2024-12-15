@@ -80,9 +80,17 @@ void check_range(const int min, const int max);
 */
 void check_array(int* const array);
 
+/**
+* @brief заносит в переменную choice введеные в stdin символьные значения, если они соответсвуют значениям enum
+* @param temp указатель на знаковый массив
+* @param choice указатель на переменную choice
+* @param указатель на массив
+*/
+void comparison(char* temp, enum method* choice, int* array);
+
 enum method {
-	RANDOM,
-	KEYBOARD
+	random,
+	keyboard
 };
 
 int main() {
@@ -90,15 +98,18 @@ int main() {
 	size_t size = input_positive();
 	int* array = (int*)malloc(size * sizeof(int));
 	check_array(array);
-	puts("Выберите способ заполнения массива:\n0 - случайными числами\n1 - вручную");
-	enum method choice = (enum method)input_positive();
+	puts("random/keyboard");
+	char temp[10];
+	scanf_s("%9s", temp, (unsigned)_countof(temp)); 
+	enum method choice = 2;
+	comparison(temp, &choice, array);
 	switch (choice) {
-	case RANDOM:
+	case random:
 		random_input(array, size);
 		puts("Массив: ");
 		print_array(array, size);
 		break;
-	case KEYBOARD:
+	case keyboard:
 		keyboard_input(array, size);
 		break;
 	default:
@@ -214,6 +225,21 @@ void check_range(const int min, const int max) {
 void check_array(int* const array) {
 	if (!array) {
 		perror("Ошибка: массив не выделен");
+		exit(EXIT_FAILURE);
+	}
+}  
+
+void comparison(char* temp, enum method* choice, int* array) {
+	if (strcmp(temp, "random") == 0) {
+		*choice = random;  // Изменение по указателю
+	}
+	else if (strcmp(temp, "keyboard") == 0) {
+		*choice = keyboard;
+	}
+	else {
+		free(array);
+		errno = EIO;
+		perror("Введены неверные значения\n");
 		exit(EXIT_FAILURE);
 	}
 }
