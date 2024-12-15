@@ -6,69 +6,62 @@
 
 /**
 * @brief - принимает из stdin, а затем возвращает значение переменной value
-* @var value - хранит значение того что ввели в stdin
-* @var s - хранит количество символов введенных в stdin
+* @return числовое значение полученное из stdin
 */
-float input();
+double input(void);
 
 /**
-* @brief - проверяет что интервал существует
-* @param intervalB - параметр принимающий значение начала интервала
-* @param intervalE - параметр принимающий значение конца интервала
+* @brief табулирует функцию в пределах ОДЗ, а так же расчитывает сумму ряда
+* @param intervalB передает значение начала интервала
+* @param intervalE передает значение конца интервала
+* @param step передает значение шага
+* @param epsilon передает значение точности
 */
-int check(const float intervalB, const float intervalE);
+void calc(const double intervalB, const double intervalE, const double step, const double epsilon);
 
 /**
-* @brief - проверяет что шаг является положительным числом
-* @param step - параметр принимающий значение шага
+* @brief расчитывает значение функции
+* @param x передает значение аргумента функции
+* @return возвращает значение функции (y)
 */
-float check_step(const float step);
+double calc_y(const double x);
 
 /**
-* @brief - табулирует функцию в пределах ОДЗ, а так же расчитывает сумму ряда
-* @param intervalB - передает значение начала интервала
-* @param intervalE - передает значение конца интервала
-* @param step - передает значение шага
-* @param epsilon - передает значение точности
+* @brief расчитывает сумму ряда
+* @param x передает значение аргумента функции
+* @param epsilon передает значение точности
+* @return возвращает сумму ряда
 */
-void calc(const float intervalB, const float intervalE, const float step, const float epsilon);
+double sum(const double x, const double epsilon);
 
 /**
-* @brief - расчитывает значение функции
-* @param x - передает значение аргумента функции 
+* @brief возвращает следующий член последовательности по рекуреннтной формуле
+* @param x передает значение аргумента функции
+* @param k актуальное порядковое значение элемента последовательности
+* @return возвращает следующий член последовательности по рекуреннтной формуле
 */
-float calc_y(const float x);
+double reccurent(const double x, const double k);
 
 /**
-* @brief - расчитывает сумму ряда
-* @param x - передает значение аргумента функции
-* @param epsilon - передает значение точности
+* @brief - точка входа в программу
+* @return 0 при успешном выполнении программы
 */
-float sum(const float x, const float epsilon);
-
-/**
-* @brief - возвращает следующий член последовательности по рекуреннтной формуле
-* @param x - передает значение аргумента функции
-* @param k - актуальное порядковое значение элемента последовательности
-*/
-float recurent(const float x, const float k);
-
-int main() {
-	const float epsilon = pow(15, -4);
+int main(void) {
+	double epsilon = pow(15, -4);
 	puts("Пожалуйста введите значения начала и конца интервала:\n");
-	const float intervalB = input();
-	const float intervalE = input();
+	double intervalB = input();
+	double intervalE = input();
 	check(intervalB, intervalE);
 	puts("Пожалуйста введите значение шага табулирования:\n");
-	const float step = check_step(input());
+	double step = get_step();
 	calc(intervalB, intervalE, step, epsilon);
 
 	return 0;
 }
 
-float input() {
-	float value = 0;
-	int s = scanf_s("%f", &value);
+double input(void) {
+	double value = 0;
+	int s = scanf_s("%lf", &value);
 	if (s != 1) {
 		errno = EIO;
 		perror("Ошибка, не числовое значение\n");
@@ -77,48 +70,42 @@ float input() {
 	return value;
 }
 
-int check(const float intervalB, const float intervalE) {
-	if (fabs(intervalB - intervalE) < FLT_EPSILON) {
+double get_step() {
+	double value = 0;
+	int s = scanf_s("%lf", &value);
+	if (s != 1 || value < DBL_EPSILON) {
 		errno = EIO;
-		perror("Ошибка, интервал задан одним числом\n");
+		perror("Ошибка ввода\n");
 		exit(EXIT_FAILURE);
 	}
-}
-
-float check_step(const float step) {
-	if (step < FLT_EPSILON) {
-		errno = EIO;
-		perror("Ошибка, слишком маленький шаг\n");
-		exit(EXIT_FAILURE);
-	}
-	return step;
+	return value;
 }
 
 // область определения от -бесконенчости до бесконенчости
-void calc(const float intervalB, const float intervalE, const float step, const float epsilon) {
-	for (float x = intervalB; x <= intervalE + FLT_EPSILON; x += step) {
+void calc(const double intervalB, const double intervalE, const double step, const double epsilon) {
+	for (double x = intervalB; x <= intervalE + FLT_EPSILON; x += step) {
 		printf("x = %.2f     f(x) = %.6f      S(x) = %.6f\n", x, calc_y(x), sum(x, epsilon));
 	}
 }
 
-float calc_y(const float x) {
-	  return pow(exp(1), x);
-      }
+double calc_y(const double x) {
+	return exp(x);
+}
 
-float sum(const float x, const float epsilon) {
-	float a = recurent(x, 0); 
+double sum(const double x, const double epsilon) {
+	double current = recurent(x, 0);
 	double result = 0.0;
 	int k = 1;
 
-	while (fabs(a) >= epsilon) {
-		result += a;
-		a = recurent(x, k);
+	while (fabs(current) >= epsilon - DBL_EPSILON) {
+		result += current;
+		current *= recurent(x, k);
 		k++;
 	}
 
 	return result;
 }
 
-float recurent(const float x, const float k) {
-	return (4 * k + 1) * pow(x, 4) / (4 * k + 5);
+double reccurent(const double x, const double k) {
+	return x / k;
 }
