@@ -100,7 +100,7 @@ int main() {
 	check_array(array);
 	puts("random/keyboard");
 	char temp[10];
-	scanf_s("%9s", temp, (unsigned)_countof(temp)); 
+	scanf_s("%9s", &temp, (unsigned)_countof(temp)); 
 	enum method choice = 2;
 	comparison(temp, &choice, array);
 	switch (choice) {
