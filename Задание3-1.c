@@ -5,54 +5,43 @@
 #include <stdlib.h>
 
 /**
-* @brief - принимает из stdin, а затем возвращает значение переменной value
-* @var value - переменная для хранения значения того что ввели в stdin
-* @var s - переменная для хранения количества символов введенных в stdin
+* @brief принимает числовое значение из stdin
+* @return числовое значение полученное из stdin
 */
-float input();
+double input();
 
 /**
-* @brief - проверяет что интервал существует
-* @param intervalB - параметр принимающий значение начала интервала
-* @param intervalE - параметр принимающий значение конца интервала
+* @brief проверяет что шаг является положительным числом
+* @param step параметр принимающий значение шага
+* @return числовое значение параметра step
 */
-int check(const float intervalB, const float intervalE);
+double check_step(const double step);
 
 /**
-* @brief - проверяет что шаг является положительным числом
-* @param step - параметр принимающий значение шага
+* @brief табулирует функцию в пределах ОДЗ
+* @param intervalB параметр принимающий значение начала интервала
+* @param intervalE параметр принимающий значение конца интервала
+* @param step параметр принимающий значение шага
 */
-float check_step(const float step);
-
-/**
-* @brief - табулирует функцию в пределах ОДЗ
-* @param intervalB - параметр принимающий значение начала интервала
-* @param intervalE - параметр принимающий значение конца интервала
-* @param step - параметр принимающий значение шага
-* @var result - переменная для хранения значения функции
-*/
-int calc(float intervalB, const float intervalE, const float step);
+void calc(double intervalB, const double intervalE, const double step);
 
 /**
 * @brief - точка входа в программу
-* @var intervalB - переменная принимающая значение начала интервала
-* @var intervalE - переменная принимающая значение конца интервала
-* @var step - переменная принимающая значение шага
+* @return 0 при успешном выполнении программы
 */
 int main() {
 	puts("Пожалуйста введите значения начала и конца интервала:");
-	const float intervalB = input();
-	const float intervalE = input();
-	check(intervalB, intervalE);
+	const double intervalB = input();
+	const double intervalE = input();
 	puts("Пожалуйста введите значение шага табулирования:");
-	const float step = check_step(input());
+	const double step = check_step(input());
 	calc(intervalB, intervalE, step);
 	return 0;
 }
 
-float input() {
-	float value = 0.0;
-	int s = scanf_s("%f", &value);
+double input() {
+	double value = 0.0;
+	int s = scanf_s("%lf", &value);
 	if (s != 1) {
 		errno = EIO;
 		perror("Ошибка, не числовое значение\n");
@@ -61,16 +50,8 @@ float input() {
 	return value;
 }
 
-int check(const float intervalB, const float intervalE) {
-	if (fabs(intervalB - intervalE) < FLT_EPSILON) {
-		errno = EIO;
-		perror("Ошибка, интервал задан одним числом\n");
-		exit(EXIT_FAILURE);
-	}
-}
-
-float check_step(const float step) {
-	if (step < FLT_EPSILON) {
+double check_step(const double step) {
+	if (step < DBL_EPSILON) {
 		errno = EIO;
 		perror("Ошибка, слишком маленький шаг\n");
 		exit(EXIT_FAILURE);
@@ -78,12 +59,12 @@ float check_step(const float step) {
 	return step;
 }
 
-int calc(float intervalB, const float intervalE, const float step) {
-	float result;
-	for (; intervalB <= intervalE + FLT_EPSILON; intervalB += step) {
+void calc(double intervalB, const double intervalE, const double step) {
+	double result;
+	for (; intervalB <= intervalE + DBL_EPSILON; intervalB += step) {
 		if (intervalB < 0) // ОДЗ
 			puts("Значение не может быть посчитанно");
-		result = intervalB + sqrt(intervalB, 2.0) + cbrt(intervalB, 3.0) - 2.5;
+		result = intervalB + sqrt(intervalB) + cbrt(intervalB) - 2.5;
 		printf("Для x = %0.2f y = %0.2f\n", intervalB, result);
 	}
 }
