@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <math.h>
+#include <errno.h>
 
 /**
  * @brief вычисляет значение функции y
@@ -30,7 +31,8 @@ double input(void) {
     const double x = 0;
     printf("Введите значение x: ");
     if (scanf_s("%lf", &x) != 1) {
-        printf("Ошибка ввода! Пожалуйста, введите числовое значение.\n");
+        errno = EIO;
+        perror("Ошибка, не числовое значение\n");
         abort(1);
     }
     return x;
