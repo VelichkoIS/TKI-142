@@ -135,12 +135,7 @@ int input() {
 
 size_t input_positive() {
 	int s = input();
-	if (s < 0) {
-		errno = EIO;
-		perror("Ошибка, не числовое значение или число отрицательное\n");
-		exit(1);
-	}
-	return s;
+	return (size_t)s;
 }
 
 void random_input(int* const array, const size_t size) {
