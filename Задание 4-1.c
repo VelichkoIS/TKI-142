@@ -135,6 +135,10 @@ int input() {
 
 size_t input_positive() {
 	int s = input();
+	if (s < 0) {
+		errno = EIO;
+		perror("Ошибка, не числовое значение или число отрицательное\n");
+		exit(EXIT_FAILURE);
 	return (size_t)s;
 }
 
