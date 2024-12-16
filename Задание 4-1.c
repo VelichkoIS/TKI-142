@@ -80,14 +80,6 @@ void check_range(const int min, const int max);
 */
 void check_array(int* const array);
 
-/**
-* @brief заносит в переменную choice введеные в stdin символьные значения, если они соответсвуют значениям enum
-* @param temp указатель на знаковый массив
-* @param choice указатель на переменную choice
-* @param указатель на массив
-*/
-void comparison(char* temp, enum method* choice, int* array);
-
 enum method {
 	random,
 	keyboard
@@ -98,11 +90,8 @@ int main() {
 	size_t size = input_positive();
 	int* array = (int*)malloc(size * sizeof(int));
 	check_array(array);
-	puts("random/keyboard");
-	char temp[10];
-	scanf_s("%9s", temp, (unsigned)_countof(temp)); 
-	enum method choice = 2;
-	comparison(temp, &choice, array);
+	printf("Выберите способ заполнения массива:%d - случайными числами\n%d - вводом с клавиатуры", (int)random, (int)keyboard);
+	enum method choice = input_positive();
 	switch (choice) {
 	case random:
 		random_input(array, size);
@@ -225,21 +214,6 @@ void check_range(const int min, const int max) {
 void check_array(int* const array) {
 	if (!array) {
 		perror("Ошибка: массив не выделен");
-		exit(EXIT_FAILURE);
-	}
-}  
-
-void comparison(char* temp, enum method* choice, int* array) {
-	if (strcmp(temp, "random") == 0) {
-		*choice = random; 
-	}
-	else if (strcmp(temp, "keyboard") == 0) {
-		*choice = keyboard;
-	}
-	else {
-		free(array);
-		errno = EIO;
-		perror("Введены неверные значения\n");
 		exit(EXIT_FAILURE);
 	}
 }
