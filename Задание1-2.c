@@ -16,8 +16,8 @@ double input(void);
 int main(void) {
 	double R = input();
 	puts("Пожалуйста введите радиус шара");
-	double V = 4 / 3 * M_PI * pow(R, 3);
-	double S = 4 * M_PI * pow(R, 2);
+	double V = 4.0 / 3.0 * M_PI * pow(R, 3);
+	double S = 4.0 * M_PI * pow(R, 2);
 	printf("S:%f\nV:%f", S, V);
 	return 0;
 }
