@@ -182,7 +182,7 @@ int count(const int A, const size_t size, int* array) {
 }
 
 void division(const size_t size, int* array, float* array_float) {
-	for (int i = 0; i < size; i++) {
+	for (size_t i = 0; i < size; i++) {
 		if (i % 2 == 0) {
 			array_float[i] = (float)array[i] / (float)array[0];
 		}
@@ -192,13 +192,13 @@ void division(const size_t size, int* array, float* array_float) {
 }
 
 void print_array(int* array, const size_t size) {
-	for (int i = 0; i < size; i++) {
+	for (size_t i = 0; i < size; i++) {
 		printf("%d ", array[i]);
 	}
 }
 
 void print_array_float(float* array_float, const size_t size) {
-	for (int i = 0; i < size; i++) {
+	for (size_t i = 0; i < size; i++) {
 		printf("%0.2f ", array_float[i]);
 	}
 }
@@ -217,3 +217,4 @@ void check_array(int* const array) {
 		exit(EXIT_FAILURE);
 	}
 }
+
