@@ -134,14 +134,13 @@ int input() {
 }
 
 size_t input_positive() {
-	size_t value = 0.0;
 	int s = input();
 	if (s < 0) {
 		errno = EIO;
 		perror("Ошибка, не числовое значение или число отрицательное\n");
 		exit(1);
 	}
-	return value;
+	return s;
 }
 
 void random_input(int* const array, const size_t size) {
@@ -157,14 +156,14 @@ void random_input(int* const array, const size_t size) {
 }
 
 void keyboard_input(int* array, const size_t size) {
-	for (int i = 0; i < size; i++) {
+	for (size_t i = 0; i < size; i++) {
 		array[i] = input();
 	}
 }
 
 int sum(const size_t size, int* const array) {
 	int temp = 0;
-	for (int i = 1; i < size; i += 2) {
+	for (size_t i = 1; i < size; i += 2) {
 		temp += array[i];
 	}
 	return temp;
@@ -173,7 +172,7 @@ int sum(const size_t size, int* const array) {
 int count(const int A, const size_t size, int* array) {
 	printf("Введите число A (с которым будут сравниваться элементы массива): ");;
 	int c = 0;
-	for (int i = 0; i < size; i++) {
+	for (size_t i = 0; i < size; i++) {
 		if ((array[i] > A) && (array[i] % 5 == 0)) {
 			c++;
 		}
