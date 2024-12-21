@@ -11,14 +11,26 @@
 double input(void);
 
 /**
+* @brief расчитывает обьем 
+* @return числовое значение обьема
+*/
+double get_v(const double R);
+
+/**
+* @brief расчитывает площадь
+* @return числовое значение площади
+*/
+double get_s(const double R);
+
+/**
 * @brief точка входа в функцию
 * @return 0 при успешном выполнении программы
 */
 int main(void) {
-	puts("Пожалуйста введите радиус шара");
+	puts("Пожалуйста введите радиус шара:");
 	double R = input();
-	double V = 4.0 / 3.0 * M_PI * pow(R, 3.0);
-	double S = 4.0 * M_PI * pow(R, 2.0);
+	double V = get_v(R);
+	double S = get_s(R);
 	printf("S:%f\nV:%f", S, V);
 	return 0;
 }
@@ -32,4 +44,12 @@ double input(void) {
 		exit(EXIT_FAILURE);
 	}
 	return value;
+}
+
+double get_v(const double R) {
+	return 4.0 / 3.0 * M_PI * pow(R, 3.0);
+}
+
+double get_s() {
+	return 4.0 * M_PI * pow(R, 2.0);
 }
