@@ -27,7 +27,8 @@ int main(void) {
     double R2 = input();
 	puts("Введите сопротивление третьего резистора:");
     double R3 = input();
-    printf("R: %lf\n", get_r(R1, R2, R3));
+	double R = get_r();
+    printf("R: %lf\n", R);
     return 0;
 }
 
