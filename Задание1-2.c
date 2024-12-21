@@ -1,3 +1,4 @@
+#define _USE_MATH_DEFINES
 #include <stdio.h>
 #include <math.h>
 #include <errno.h>
@@ -14,8 +15,8 @@ double input(void);
 * @return 0 при успешном выполнении программы
 */
 int main(void) {
-	double R = input();
 	puts("Пожалуйста введите радиус шара");
+	double R = input();
 	double V = 4.0 / 3.0 * M_PI * pow(R, 3.0);
 	double S = 4.0 * M_PI * pow(R, 2.0);
 	printf("S:%f\nV:%f", S, V);
