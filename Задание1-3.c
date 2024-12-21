@@ -1,35 +1,44 @@
 #include <stdio.h>
 #include <math.h>
+#include <errno.h>
+#include <stdlib.h>
 
 /**
-* @brief получает значения от пользователя
-* @param R1, R2, R3 - указатели на переменные(напрямую на ячейки памяти для инициализации переменных)  
+* @brief принимает числовое значение из stdin
+* @return числовое значение полученное из stdin
 */
-void input(double* R1, double* R2, double* R3);
+void input(void);
 
 /**
 * @brief расчитывает сопротивление
 * @param R1, R2, R3 - пременные
+* @return численное значение сопротивления
 */
 double resistance(double R1, double R2, double R3);
 
 /**
 * @brief точка входа функции
+* @return 0 в случае успешного выполнения программы
 */
-int main() {
-    double R1, R2, R3;
-    input(&R1, &R2, &R3); 
-    printf("R: %lf\n", resistance(R1, R2, R3)); 
+int main(void) {
+    double R1 = input();
+    double R2 = input();
+    double R3 = input();
+    printf("R: %lf\n", get_r(R1, R2, R3));
     return 0;
 }
 
-void input(double* R1, double* R2, double* R3) {
-    printf("Пожалуйста введите значения сопротивлений R1, R2, R3:\n");
-    scanf_s("%lf", R1); 
-    scanf_s("%lf", R2);
-    scanf_s("%lf", R3);
+double input(void) {
+	double value = 0.0;
+	int s = scanf_s("%lf", &value);
+	if (s != 1) {
+		errno = EIO;
+		perror("Ошибка, не числовое значение\n");
+		exit(EXIT_FAILURE);
+	}
+	return value;
 }
 
-double resistance(double R1, double R2, double R3) {
+double get_r(double R1, double R2, double R3) {
     return (R1 * R2 * R3) / (R1 * R2 + R2 * R3 + R3 * R1);
 }
