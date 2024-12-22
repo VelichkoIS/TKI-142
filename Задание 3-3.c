@@ -1,4 +1,8 @@
-
+#include <stdio.h>
+#include <errno.h>
+#include <math.h>
+#include <float.h>
+#include <stdlib.h>
 
 /**
 * @brief принимает числовое значение из stdin 
