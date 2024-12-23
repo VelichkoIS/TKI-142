@@ -128,3 +128,10 @@ int* remove_elements(int* array, const size_t size);
 * @param size размер массива
 */
 void array_filling(int const* array, int* new_array, const size_t size);
+
+/**
+* @brief создает массив
+* @param size размер создаваемого массива
+* @return указатель на созданный массив
+*/
+int* create_array(const size_t size);
