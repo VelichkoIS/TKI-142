@@ -127,4 +127,4 @@ int* remove_elements(int* array, const size_t size);
 * @param new_array указатель на массив
 * @param size размер массива
 */
-void create_array(int const* array, int* new_array, const size_t size);
+void array_filling(int const* array, int* new_array, const size_t size);
