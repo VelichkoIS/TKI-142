@@ -13,16 +13,16 @@ void change(int* array, size_t size) {
 }
 
 void delete_elements(int* array, size_t size) {
-		int count = count_remove_elements(array, size);
-		if (count == 0){
+	int count = count_remove_elements(array, size);
+	if (count == 0) {
 		puts("\nНет улементов для удаления: \n");
-		}
-		else{
+	}
+	else {
 		array = remove_elements(array, size);
 		size = count;
 		puts("\nМассив после удаления элементов,первая цифра которых четная: \n");
 		print_array(array, size);
-		}
+	}
 }
 
 double input(void) {
@@ -140,7 +140,7 @@ int* remove_elements(int* array, const size_t size) {
 			current_index++;
 		}
 	}
-	int* array = create_array(size);
+	int* new_array = create_array(size);
 	copy_array(new_array, array, current_index);
 	return new_array;
 
@@ -157,7 +157,7 @@ void array_filling(int const* array, int* new_array, const size_t size) {
 	}
 }
 
-int* create_array (const size_t size) {
+int* create_array(const size_t size) {
 	int* array = (int*)malloc(size * sizeof(int));
 	check_array(array);
 	return array;
