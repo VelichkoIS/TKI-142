@@ -149,7 +149,7 @@ int* remove_elements(int* array, const size_t size) {
 
 }
 
-void create_array(int const* array, int* new_array, const size_t size) {
+void array_filling(int const* array, int* new_array, const size_t size) {
 	for (size_t i = 0; i < size; i++) {
 		if (i % 2 == 0) {
 			new_array[i] = array[i] * array[i];
@@ -158,4 +158,10 @@ void create_array(int const* array, int* new_array, const size_t size) {
 			new_array[i] = 2 * array[i];
 		}
 	}
+}
+
+size_t create_array (const size_t size) {
+	int* array = (int*)malloc(size * sizeof(int));
+	check_array(array);
+	return array;
 }
