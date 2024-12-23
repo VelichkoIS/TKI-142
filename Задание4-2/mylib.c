@@ -158,6 +158,7 @@ void array_filling(int const* array, int* new_array, const size_t size) {
 }
 
 int* create_array (const size_t size) {
-	int* array = create_array(size);
+	int* array = (int*)malloc(size * sizeof(int));
+	check_array(array);
 	return array;
 }
