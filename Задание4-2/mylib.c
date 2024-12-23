@@ -140,11 +140,8 @@ int* remove_elements(int* array, const size_t size) {
 			current_index++;
 		}
 	}
-
-	int* new_array = (int*)malloc(current_index * sizeof(int));
-	check_array(new_array);
+	int* array = create_array(size);
 	copy_array(new_array, array, current_index);
-
 	return new_array;
 
 }
@@ -161,7 +158,6 @@ void array_filling(int const* array, int* new_array, const size_t size) {
 }
 
 int* create_array (const size_t size) {
-	int* array = (int*)malloc(size * sizeof(int));
-	check_array(array);
+	int* array = create_array(size);
 	return array;
 }
