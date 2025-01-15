@@ -100,16 +100,17 @@ void print_2d_array(const long long** array, const size_t rows, const size_t col
 /**
 * @brief возводит в степень первые 3 элемента массива
 * @param array указатель на массив
-* param rows количество массивов(строк) в двумерном массиве
+* @param columns количество элементов каждого массива(столбцов) в двумерном массиве
 */
-void first_3_elements_to_root(long long* array, const size_t rows);
+void first_3_elements_to_root(long long* array, const size_t columns);
 
 /**
 * @brief возводит в степень первые 3 элемента в каждом из массивов двумерного массива
 * @param array двойной указатель на массив
 * @param rows количество массивов(строк) в двумерном массиве
+* @param columns количество элементов каждого массива(столбцов) в двумерном массиве
 */
-void first_3_columns_to_root(long long** array, const size_t rows);
+void first_3_columns_to_root(long long** array, const size_t rows, const size_t columns);
 
 /**
 * @brief считает количество нечетных элементов(массивов) в двумерном массиве
