@@ -1,44 +1,55 @@
+#define _USE_MATH_DEFINES
 #include <stdio.h>
 #include <math.h>
+#include <errno.h>
+#include <stdlib.h>
 
 /**
-* @brief рассчитывает значения a по формуле
-* @return рассчитанное значение
-* @param x - константа x
+* @brief принимает числовое значение из stdin
+* @return числовое значение полученное из stdin
 */
-double get_a(const double x);
+double input(void);
 
-/*
-* @brief рассчитывает значения b по формуле
-* @return рассчитанное значение
-* @param x - константа x
-* @param y - константа y
+/**
+* @brief расчитывает обьем 
+* @return числовое значение обьема
 */
-double get_b(const double x, const double y);
+double get_v(const double R);
 
-/*
-* @brief - точка входа функции
-* @return - возвращает 0 в случае успешного выполнения программы
-* @param x - константа x
-* @param y - константа y
+/**
+* @brief расчитывает площадь
+* @return числовое значение площади
 */
-int main()
-{
-	double const x = 0.335;
-	double const y = 0.025;
-	double const a = get_a(x);
-	double const b = get_b(x, y);
-	printf("a = %lf\nb = %lf", a, b);
+double get_s(const double R);
 
+/**
+* @brief точка входа в функцию
+* @return 0 при успешном выполнении программы
+*/
+int main(void) {
+	puts("Пожалуйста введите радиус шара:");
+	double R = input();
+	double V = get_v(R);
+	double S = get_s(R);
+	printf("S:%f\nV:%f", S, V);
 	return 0;
 }
 
-double get_a(const double x)
-{
-	return 1 + x + (pow(x, 2) / 2) + (pow(x, 3) / 3) + (pow(x, 4) / 4);
+double input(void) {
+	double value = 0.0;
+	int s = scanf_s("%lf", &value);
+	if (s != 1) {
+		errno = EIO;
+		perror("Ошибка, не числовое значение\n");
+		exit(EXIT_FAILURE);
+	}
+	return value;
 }
 
-double get_b(const double x, const double y)
-{
-	return x * (sin(pow(x, 3)) + pow(cos(y), 2));
+double get_v(const double R) {
+	return 4.0 / 3.0 * M_PI * pow(R, 3.0);
+}
+
+double get_s() {
+	return 4.0 * M_PI * pow(R, 2.0);
 }
