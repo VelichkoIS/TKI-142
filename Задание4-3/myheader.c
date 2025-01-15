@@ -11,13 +11,6 @@ enum array_filling {
 };
 
 /**
-* @brief освобождает выделенную память для элементов двумерого массива(массивов)
-* @param array двойной указатель на массив
-* @param rows количество массивов(строк) в двумерном массиве
-*/
-void free_2d_array(long long** array, const size_t rows);
-
-/**
 * @brief принимает целочисленное число из stdin
 * @return целочисленное число из stdin
 */
@@ -36,6 +29,21 @@ size_t positive_input(void);
 void check_array(const long long* array);
 
 /**
+* @brief создает массив
+* @param size размер массива
+* @return массив
+*/
+long long* create_array(const size_t size);
+
+/**
+* @brief создает двумерный массив
+* @param rows количество массивов(строк) в двумерном массиве
+* @param columns количество элементов каждого массива(столбцов) в двумерном массиве
+* @return двумерный массив
+*/
+long long** create_2d_array(const size_t rows, const size_t columns);
+
+/**
 * @brief проверяет что наибольшее значение интервала больше наимешьшего
 * @param min наимешьшее значение интервала
 * @param max наибольшее щначение интервала
@@ -50,21 +58,6 @@ void check_range(const long long min, const long long max);
 * @param columns количество элементов массива
 */
 void random_array_filling(long long* array, const long long min, const long long max, const size_t columns);
-
-/**
-* @brief создает массив
-* @param size размер массива
-* @return массив
-*/
-long long* create_array(const size_t size);
-
-/**
-* @brief создает двумерный массив
-* @param rows количество массивов(строк) в двумерном массиве
-* @param columns количество элементов каждого массива(столбцов) в двумерном массиве
-* @return двумерный массив
-*/
-long long** create_2d_array(const size_t rows, const size_t columns);
 
 /**
 * @brief заполняет двумерный массив случайными числами
@@ -107,8 +100,9 @@ void print_2d_array(const long long** array, const size_t rows, const size_t col
 /**
 * @brief возводит в степень первые 3 элемента массива
 * @param array указатель на массив
+* param rows количество массивов(строк) в двумерном массиве
 */
-void first_3_elements_to_root(long long* array);
+void first_3_elements_to_root(long long* array, const size_t rows);
 
 /**
 * @brief возводит в степень первые 3 элемента в каждом из массивов двумерного массива
@@ -141,3 +135,10 @@ void copy_row(long long* new_array, const long long* array, const size_t columns
 * @return новый массив
 */
 long long** create_an_extended_2d_array(long long** array, const size_t rows, const size_t new_rows, const size_t columns);
+
+/**
+* @brief освобождает выделенную память для элементов двумерого массива(массивов)
+* @param array двойной указатель на массив
+* @param rows количество массивов(строк) в двумерном массиве
+*/
+void free_2d_array(long long** array, const size_t rows);
