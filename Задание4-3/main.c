@@ -25,7 +25,7 @@ int main(void) {
 		perror("Ошибка, введено недопустимое значение");
 		exit(EXIT_FAILURE);
 	}
-	first_3_columns_to_root(array, rows);
+	first_3_columns_to_root(array, rows, columns);
 	puts("Все элементы первых трех столбцов были возведены в квадрат:");
 	print_2d_array(array, rows, columns);
 	const size_t new_rows = odd_rows_count(array, rows);
