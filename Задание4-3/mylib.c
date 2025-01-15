@@ -1,30 +1,23 @@
 #include "myheader.h"
 
-void free_2d_array(long long** array, const size_t rows) {
-	for (size_t i = 0; i < rows; i++) {
-		free(array[i]);
-	}
-	free(array);
-}
-
 int input(void) {
 	int value = 0;
 	if (scanf_s("%d", &value) != 1) {
 		errno = EINVAL;
-		perror("Ошибка, введенное значение не является целочисленным неотрицательным числом.");
+		perror("Ошибка, не числовое значение");
 		exit(EXIT_FAILURE);
 	}
 	return value;
 }
 
 size_t positive_input(void) {
-	size_t value = 0;
-	if (scanf_s("%zu", &value) != 1) {
+	int value = input();
+	if (value <= 0) {
 		errno = EINVAL;
-		perror("Ошибка, введенное значение не является целочисленным неотрицательным числом.");
+		perror("Ошибка, число не является положительным");
 		exit(EXIT_FAILURE);
 	}
-	return value;
+	return (size_t)value;
 }
 
 void check_array(const long long* array) {
@@ -32,20 +25,6 @@ void check_array(const long long* array) {
 		errno = ENOMEM;
 		perror("Ошибка выделения памяти.");
 		exit(EXIT_FAILURE);
-	}
-}
-
-void check_range(const long long min, const long long max) {
-	if (min > max) {
-		errno = EINVAL;
-		perror("Ошибка, неправильно задан интервал");
-		exit(EXIT_FAILURE);
-	}
-}
-
-void random_array_filling(long long* array, const long long min, const long long max, const size_t columns) {
-	for (size_t i = 0; i < columns; i++) {
-		array[i] = rand() % (max - min + 1) + min;
 	}
 }
 
@@ -63,6 +42,20 @@ long long** create_2d_array(const size_t rows, const size_t columns) {
 		check_array(array[i]);
 	}
 	return array;
+}
+
+void check_range(const long long min, const long long max) {
+	if (min > max) {
+		errno = EINVAL;
+		perror("Ошибка, неправильно задан интервал");
+		exit(EXIT_FAILURE);
+	}
+}
+
+void random_array_filling(long long* array, const long long min, const long long max, const size_t columns) {
+	for (size_t i = 0; i < columns; i++) {
+		array[i] = rand() % (max - min + 1) + min;
+	}
 }
 
 void random_2d_array_filling(long long** array, const size_t rows, const size_t columns) {
@@ -102,15 +95,15 @@ void print_2d_array(const long long** array, const size_t rows, const size_t col
 	}
 }
 
-void first_3_elements_to_root(long long* array) {
-	for (size_t i = 0; i < 3; i++) {
+void first_3_elements_to_root(long long* array, const size_t rows) {
+	for (size_t i = 0; i < 3 && i < rows; i++) {
 		array[i] *= array[i];
 	}
 }
 
 void first_3_columns_to_root(long long** array, const size_t rows) {
 	for (size_t i = 0; i < rows; i++) {
-		first_3_elements_to_root(array[i]);
+		first_3_elements_to_root(array[i], rows);
 	}
 }
 
@@ -141,4 +134,11 @@ long long** create_an_extended_2d_array(long long** array, const size_t rows, co
 			}
 	}
 	return new_array;
+}
+
+void free_2d_array(long long** array, const size_t rows) {
+	for (size_t i = 0; i < rows; i++) {
+		free(array[i]);
+	}
+	free(array);
 }
