@@ -95,15 +95,15 @@ void print_2d_array(const long long** array, const size_t rows, const size_t col
 	}
 }
 
-void first_3_elements_to_root(long long* array, const size_t rows) {
-	for (size_t i = 0; i < 3 && i < rows; i++) {
+void first_3_elements_to_root(long long* array, const size_t columns) {
+	for (size_t i = 0; i < 3 && i < columns; i++) {
 		array[i] *= array[i];
 	}
 }
 
-void first_3_columns_to_root(long long** array, const size_t rows) {
+void first_3_columns_to_root(long long** array, const size_t rows, const size_t columns) {
 	for (size_t i = 0; i < rows; i++) {
-		first_3_elements_to_root(array[i], rows);
+		first_3_elements_to_root(array[i], columns);
 	}
 }
 
