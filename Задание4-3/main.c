@@ -22,7 +22,7 @@ int main(void) {
 		break;
 	default :
 		errno = EINVAL;
-		perror("Ошибка, введено недопустимое значение.");
+		perror("Ошибка, введено недопустимое значение");
 		exit(EXIT_FAILURE);
 	}
 	first_3_columns_to_root(array, rows);
